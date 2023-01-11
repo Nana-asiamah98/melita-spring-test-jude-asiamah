@@ -1,0 +1,35 @@
+environ_variables:
+  db-url: "jdbc:postgresql://dpg-ce4ej514reb6t8cl1bdg-a.oregon-postgres.render.com/orderdb"
+  username: 'nana'
+  password: 'sxbiz4FkaxOkbuY3YiHX7CGhMXUZ1Oqq'
+  schema: 'order_schema'
+  secret: "secret"
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: ${environ_variables.db-url}
+    username: ${environ_variables.username}
+    password: ${environ_variables.password}
+    hikari:
+      schema: ${environ_variables.schema}
+  flyway:
+    url: ${environ_variables.db-url}
+    user: ${environ_variables.username}
+    password: ${environ_variables.password}
+    schemas: ${environ_variables.schema}
+    installed-by: "Nana Asiamah"
+    enabled: false
+  application:
+    name: order-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka"
+
+server:
+  port: 7700
+

@@ -32,4 +32,7 @@ eureka:
 
 server:
   port: 7700
+  servlet:
+    context-path: /order
+
 

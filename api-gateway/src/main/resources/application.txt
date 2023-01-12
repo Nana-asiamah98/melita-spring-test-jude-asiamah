@@ -8,7 +8,7 @@ logging.level.org.springframework.cloud.gateway = TRACE
 ## Order Service Route
 spring.cloud.gateway.routes[0].id=order-service
 spring.cloud.gateway.routes[0].uri=lb://order-service
-spring.cloud.gateway.routes[0].predicates[0]=Path=/api/v1/customer
+spring.cloud.gateway.routes[0].predicates[0]=Path=/order/**
 
 #Fulfilment Service Route
 spring.cloud.gateway.routes[1].id=fulfilment-service

@@ -8,6 +8,7 @@ import com.ml.ordermicroservice.repository.ProductsRepository;
 import com.ml.ordermicroservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,10 +23,12 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductsRepository productsRepository;
-
+    private final KafkaTemplate<String,String> kafkaTemplate;
+    
 
     @Override
     public Product save(Product product) {
+        kafkaTemplate.send("orderTopic", "Product Saved");
         return productsRepository.save(product);
     }
 

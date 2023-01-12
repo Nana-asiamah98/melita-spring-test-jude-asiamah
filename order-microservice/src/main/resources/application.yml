@@ -24,6 +24,20 @@ spring:
     enabled: false
   application:
     name: order-service
+  #Kafka Properties
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    template:
+      default-topic: orderTopic
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://lemur-0.cloud-iam.com/auth/realms/order-api-stack
+
 
 eureka:
   client:
@@ -34,5 +48,4 @@ server:
   port: 7700
   servlet:
     context-path: /order
-
 

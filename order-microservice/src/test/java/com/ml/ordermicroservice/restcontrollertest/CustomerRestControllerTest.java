@@ -87,7 +87,7 @@ public class CustomerRestControllerTest {
         customer.setEmail("some@email.com");
         customer.setAddress("Pawpaw Street");
 
-        customer.setDob(date);
+        customer.setPhoneNumber("02014864666");
         return customer;
     }
 

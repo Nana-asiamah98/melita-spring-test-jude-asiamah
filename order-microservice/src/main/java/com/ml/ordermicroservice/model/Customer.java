@@ -29,8 +29,8 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "dob")
-    private Date dob;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     @Column(name = "address")
     private String address;

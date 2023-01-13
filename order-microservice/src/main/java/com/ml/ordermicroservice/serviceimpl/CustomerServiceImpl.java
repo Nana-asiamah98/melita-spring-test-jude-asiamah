@@ -40,7 +40,7 @@ public class CustomerServiceImpl implements CustomerService {
         if (isCustomer.isPresent()) {
             Customer __mainCustomer = isCustomer.get();
             __mainCustomer.setAddress(customerDTO.getAddress());
-            __mainCustomer.setDob(customerDTO.getDob());
+            __mainCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
             __mainCustomer.setEmail(customerDTO.getEmail());
             __mainCustomer.setFirstName(customerDTO.getFirstName());
             __mainCustomer.setLastName(customerDTO.getLastName());

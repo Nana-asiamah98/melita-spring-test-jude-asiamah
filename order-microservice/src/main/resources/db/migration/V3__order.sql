@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS tbl_installation_address
     id         uuid PRIMARY KEY default uuid_generate_v4() not null,
     street_name varchar(100),
     town  varchar(100),
-    region      varchar(100) UNIQUE,
+    region      varchar(100),
     created_at TIMESTAMPTZ
 );
 CREATE TABLE IF NOT EXISTS tbl_order

@@ -23,11 +23,8 @@ CREATE TABLE IF NOT EXISTS tbl_order_item
     id           uuid PRIMARY KEY default uuid_generate_v4() not null,
     package_name varchar(100),
     order_number   varchar(50),
-    product_id   integer,
-    product_variant_id   integer,
+    product_name   varchar(100),
+    product_variant_name   varchar(100),
     amount numeric(10,2),
-    constraint fk_order foreign key (order_number) references tbl_order (order_number),
-    constraint fk_product foreign key (product_id) references tbl_products (id),
-    constraint fk_product_variant foreign key (product_variant_id) references tbl_product_variant (id)
-
+    constraint fk_order foreign key (order_number) references tbl_order (order_number)
 );

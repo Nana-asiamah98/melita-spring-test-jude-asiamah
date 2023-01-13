@@ -13,9 +13,9 @@ public class OrderEvent extends ApplicationEvent {
     private String eventType;
     private OrderDTO orderDTO;
 
-    public OrderEvent(Object source) {
+    public OrderEvent(Object source, String eventType, OrderDTO orderDTO) {
         super(source);
+        this.eventType = eventType;
+        this.orderDTO = orderDTO;
     }
-
-
 }

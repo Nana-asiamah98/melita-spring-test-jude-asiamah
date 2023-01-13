@@ -1,19 +1,50 @@
+environ_variables:
+  db-url: "jdbc:postgresql://127.0.0.1:5554/orderdbtest"
+  username: 'postgres'
+  password: 'postgres'
+  schema: 'public'
+  secret: "secret"
+
 spring:
-  datasource:
-    url: "jdbc:h2:mem:test;INIT=CREATE SCHEMA IF NOT EXISTS order_schema"
-    driver-class-name: org.h2.Driver
-    hikari:
-      schema: order_schema
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    database: h2
-    show-sql: false
-    properties:
-      hibernate:
-        default_schema: order_schema
-        connection:
-          url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS order_schema
-        username: sa
-        password:
+      ddl-auto: update
+  datasource:
+    url: ${environ_variables.db-url}
+    username: ${environ_variables.username}
+    password: ${environ_variables.password}
+    hikari:
+      schema: ${environ_variables.schema}
+  flyway:
+    url: ${environ_variables.db-url}
+    user: ${environ_variables.username}
+    password: ${environ_variables.password}
+    schemas: ${environ_variables.schema}
+    installed-by: "Nana Asiamah"
+    enabled: true
+  application:
+    name: order-service
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    template:
+      default-topic: orderTopic
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://lemur-0.cloud-iam.com/auth/realms/order-api-stack
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka/"
+
+server:
+  port: 7700
+  servlet:
+    context-path: /order
 

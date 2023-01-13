@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 public class ProductDTO {
-    private UUID id;
+    private Integer id;
     private String productName;
     private List<PackagesDTO> packages = new ArrayList<>();
 }

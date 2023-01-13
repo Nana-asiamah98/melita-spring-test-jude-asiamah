@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CustomerDTO {
 
-    private UUID id;
+    private Integer id;
 
     private String firstName;
 

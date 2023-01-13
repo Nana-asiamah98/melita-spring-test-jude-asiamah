@@ -8,15 +8,18 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Entity(name = "tbl_packages")
+@Entity(name = "tbl_product_variant")
 @Data
 public class Packages {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-    @Column(name = "package_name")
+    @Column(name = "variant_name")
     private String packageName;
+
+    @Column(name = "product_id")
+    private Integer productId;
 
     @Column(name = "rate")
     private Double rate;

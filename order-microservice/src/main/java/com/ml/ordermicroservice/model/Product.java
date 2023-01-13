@@ -2,6 +2,8 @@ package com.ml.ordermicroservice.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
@@ -15,8 +17,8 @@ import java.util.UUID;
 @Data
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "product_name")
     private String productName;
@@ -30,6 +32,8 @@ public class Product {
     private ZonedDateTime updatedAt;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @Fetch(value = FetchMode.SUBSELECT)
+    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private List<Packages> packages = new ArrayList<>();
 
 }

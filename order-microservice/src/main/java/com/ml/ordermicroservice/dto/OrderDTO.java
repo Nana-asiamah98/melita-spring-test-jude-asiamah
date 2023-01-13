@@ -11,9 +11,4 @@ public class OrderDTO {
     private String orderNumber;
     private Double totalAmount;
 
-    public OrderDTO(UUID id, String orderNumber, Double totalAmount) {
-        this.id = id;
-        this.orderNumber = orderNumber;
-        this.totalAmount = totalAmount;
-    }
 }

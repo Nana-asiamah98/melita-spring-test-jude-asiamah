@@ -6,7 +6,7 @@ import java.util.UUID;
 
 @Data
 public class PackagesDTO {
-    private UUID id;
+    private Integer id;
     private String packageName;
     private Double rate;
 }

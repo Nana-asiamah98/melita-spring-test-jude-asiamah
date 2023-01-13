@@ -1,14 +1,17 @@
 package com.ml.ordermicroservice.serviceimpl;
 
+import com.ml.ordermicroservice.dto.OrderDTO;
 import com.ml.ordermicroservice.dto.PackagesDTO;
 import com.ml.ordermicroservice.dto.ProductDTO;
+import com.ml.ordermicroservice.events.OrderEvent;
 import com.ml.ordermicroservice.model.Packages;
 import com.ml.ordermicroservice.model.Product;
 import com.ml.ordermicroservice.repository.ProductsRepository;
 import com.ml.ordermicroservice.service.ProductService;
+import com.ml.ordermicroservice.utils.AppConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,13 +26,16 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductsRepository productsRepository;
-    private final KafkaTemplate<String,String> kafkaTemplate;
-    
+    private final ApplicationEventPublisher eventPublisher;
+
 
     @Override
     public Product save(Product product) {
-        kafkaTemplate.send("orderTopic", "Product Saved");
-        return productsRepository.save(product);
+
+        Product savedProduct =  productsRepository.save(product);
+        eventPublisher.publishEvent(new OrderEvent(this, AppConstants.PRODUCT_CREATED,new OrderDTO()));
+        log.info("[PRODUCT SAVED]");
+        return  savedProduct;
     }
 
     @Override

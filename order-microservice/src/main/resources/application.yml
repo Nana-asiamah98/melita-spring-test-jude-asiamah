@@ -21,7 +21,7 @@ spring:
     password: ${environ_variables.password}
     schemas: ${environ_variables.schema}
     installed-by: "Nana Asiamah"
-    enabled: false
+    enabled: true
   application:
     name: order-service
   kafka:

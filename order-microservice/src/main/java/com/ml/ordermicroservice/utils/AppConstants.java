@@ -8,4 +8,8 @@ public interface AppConstants {
     static final String  ORDER_PROCESSING = "Processing";
     static final String ORDER_PROCESSED = "Processed";
     static final String ORDER_COMPLETED = "Completed";
+
+    /* PRODUCT STATUS*/
+    static final String PRODUCT_CREATED = "Created";
+    static final String PRODUCT_CANCELLED = "Cancelled";
 }

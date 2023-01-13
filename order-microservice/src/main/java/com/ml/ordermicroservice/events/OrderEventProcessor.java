@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,9 +13,13 @@ import org.springframework.stereotype.Component;
 public class OrderEventProcessor implements ApplicationListener<OrderEvent> {
 
     private final ObjectMapper objectMapper;
+    private final KafkaTemplate<String, String> kafkaTemplate;
+
 
     @Override
     public void onApplicationEvent(OrderEvent event) {
-
+        log.info("[EVENTS RESULT] ==> {} ", event.getEventType());
+        kafkaTemplate.send("orderTopic", "Product Saved");
+        log.info("[EVENTS PUBLISHED]");
     }
 }

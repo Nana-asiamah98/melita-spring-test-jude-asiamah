@@ -118,13 +118,13 @@ public class OrderServiceImpl implements OrderService {
             Order savedOrder = orderRepository.save(mappedOrder);
 
             OrderDTO responseOrderDTO =  modelMapper.map(savedOrder,OrderDTO.class);
+
+            //Publish To Kafka
             eventPublisher.publishEvent(new OrderEvent(this, AppConstants.PRODUCT_CREATED,responseOrderDTO));
+
             return responseOrderDTO;
 
         }
-        // Add Installation Address To The DB
-        // Perform All The Necessary Calculations
-        return new OrderDTO();
     }
 
     @Override
@@ -141,4 +141,6 @@ public class OrderServiceImpl implements OrderService {
     private Double totalAmount(List<OrderItem> orderItem){
         return orderItem.stream().mapToDouble(OrderItem::getAmount).sum();
     }
+
+    //TODO::Create a private function to save accepted order
 }

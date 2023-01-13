@@ -1,4 +1,4 @@
-package com.ml.ordermicroservice.dto;
+package com.ml.fulfilmentservice.dto;
 
 import lombok.Data;
 

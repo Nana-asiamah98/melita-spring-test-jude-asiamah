@@ -49,80 +49,16 @@ public class OrderServiceImpl implements OrderService {
         // Add Customer If He/She Does Not Exists In Our System
         Optional<Customer> customerExist = customerRepository.findByPhoneNumber(orderDTO.getCustomer().getPhoneNumber());
         Customer mappedCustomer = modelMapper.map(orderDTO.getCustomer(), Customer.class);
-        String orderNumber = orderNumberGenerator.generateOrderNumber();
         if(customerExist.isPresent()){
             log.info("[CUSTOMER EXISTS]");
-
             //Save Customer
             Customer savedCustomer = customerExist.get();
-
-            //Model map Installation Address
-            InstallationAddress mappedInstallationAddress = modelMapper.map(orderDTO.getInstallationAddress(), InstallationAddress.class);
-
-            //Save Installation Address
-            InstallationAddress savedInstallationAddress = installationAddressRepository.save(mappedInstallationAddress);
-
-            //Model Map OrderList
-            List<OrderItem> mappedOrderItems = orderDTO.getOrderItem().stream().map( w -> {
-                return modelMapper.map(w,OrderItem.class);
-            }).collect(Collectors.toList());
-
-            //Model Map Order
-            Order mappedOrder = modelMapper.map(orderDTO, Order.class);
-
-            //Restructure Order Model
-            mappedOrder.setOrderItems(mappedOrderItems);
-            mappedOrder.setOrderStatus(AppConstants.ORDER_CREATED);
-            mappedOrder.setOrderNumber(orderNumber);
-            mappedOrder.setCustomerDetails(savedCustomer);
-            mappedOrder.setInstallationAddress(savedInstallationAddress);
-            mappedOrder.setTotalAmount(totalAmount(mappedOrderItems));
-
-
-            Order savedOrder = orderRepository.save(mappedOrder);
-
-            OrderDTO responseOrderDTO =  modelMapper.map(savedOrder,OrderDTO.class);
-            eventPublisher.publishEvent(new OrderEvent(this, AppConstants.PRODUCT_CREATED,responseOrderDTO));
-            return responseOrderDTO;
-
-
+            return this.savedOrder(savedCustomer,orderDTO);
         }else{
             log.info("[CUSTOMER DOESN'T EXISTS]");
-
             //Save Customer
             Customer savedCustomer = customerRepository.save(mappedCustomer);
-
-            //Model map Installation Address
-            InstallationAddress mappedInstallationAddress = modelMapper.map(orderDTO.getInstallationAddress(), InstallationAddress.class);
-
-            //Save Installation Address
-            InstallationAddress savedInstallationAddress = installationAddressRepository.save(mappedInstallationAddress);
-
-            //Model Map OrderList
-            List<OrderItem> mappedOrderItems = orderDTO.getOrderItem().stream().map( w -> {
-                return modelMapper.map(w,OrderItem.class);
-            }).collect(Collectors.toList());
-
-            //Model Map Order
-            Order mappedOrder = modelMapper.map(orderDTO, Order.class);
-
-            //Restructure Order Model
-            mappedOrder.setOrderItems(mappedOrderItems);
-            mappedOrder.setOrderStatus(AppConstants.ORDER_CREATED);
-            mappedOrder.setOrderNumber(orderNumber);
-            mappedOrder.setCustomerDetails(savedCustomer);
-            mappedOrder.setInstallationAddress(savedInstallationAddress);
-            mappedOrder.setTotalAmount(totalAmount(mappedOrderItems));
-
-
-            Order savedOrder = orderRepository.save(mappedOrder);
-
-            OrderDTO responseOrderDTO =  modelMapper.map(savedOrder,OrderDTO.class);
-
-            //Publish To Kafka
-            eventPublisher.publishEvent(new OrderEvent(this, AppConstants.PRODUCT_CREATED,responseOrderDTO));
-
-            return responseOrderDTO;
+            return this.savedOrder(savedCustomer,orderDTO);
 
         }
     }
@@ -143,4 +79,42 @@ public class OrderServiceImpl implements OrderService {
     }
 
     //TODO::Create a private function to save accepted order
+
+    private OrderDTO savedOrder(Customer savedCustomer, OrderDTO orderDTO){
+        String orderNumber = orderNumberGenerator.generateOrderNumber();
+
+        //Model map Installation Address
+        InstallationAddress mappedInstallationAddress = modelMapper.map(orderDTO.getInstallationAddress(), InstallationAddress.class);
+
+        //Save Installation Address
+        InstallationAddress savedInstallationAddress = installationAddressRepository.save(mappedInstallationAddress);
+
+        //Model Map OrderList
+        List<OrderItem> mappedOrderItems = orderDTO.getOrderItem().stream().map( w -> {
+            return modelMapper.map(w,OrderItem.class);
+        }).collect(Collectors.toList());
+
+        //Model Map Order
+        Order mappedOrder = modelMapper.map(orderDTO, Order.class);
+
+        //Restructure Order Model
+        mappedOrder.setOrderItems(mappedOrderItems);
+        mappedOrder.setOrderStatus(AppConstants.ORDER_CREATED);
+        mappedOrder.setOrderNumber(orderNumber);
+        mappedOrder.setCustomerDetails(savedCustomer);
+        mappedOrder.setInstallationAddress(savedInstallationAddress);
+        mappedOrder.setTotalAmount(totalAmount(mappedOrderItems));
+
+
+        //Save Order
+        Order savedOrder = orderRepository.save(mappedOrder);
+        OrderDTO responseOrderDTO =  modelMapper.map(savedOrder,OrderDTO.class);
+
+
+        //Publish To Kafka
+        eventPublisher.publishEvent(new OrderEvent(this, AppConstants.PRODUCT_CREATED,responseOrderDTO));
+
+        return responseOrderDTO;
+
+    }
 }

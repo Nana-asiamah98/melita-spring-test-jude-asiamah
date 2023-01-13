@@ -13,13 +13,13 @@ import org.springframework.stereotype.Component;
 public class OrderEventProcessor implements ApplicationListener<OrderEvent> {
 
     private final ObjectMapper objectMapper;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
 
     @Override
     public void onApplicationEvent(OrderEvent event) {
         log.info("[EVENTS RESULT] ==> {} ", event.getEventType());
-        kafkaTemplate.send("orderTopic", "Product Saved");
+        kafkaTemplate.send("orderTopic", event.getOrderDTO());
         log.info("[EVENTS PUBLISHED]");
     }
 }

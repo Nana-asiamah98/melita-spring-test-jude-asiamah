@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS tbl_order
 CREATE TABLE IF NOT EXISTS tbl_order_item
 (
     id           uuid PRIMARY KEY default uuid_generate_v4() not null,
-    package_name varchar(100),
     order_number   varchar(50),
     product_name   varchar(100),
     product_variant_name   varchar(100),

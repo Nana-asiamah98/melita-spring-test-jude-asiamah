@@ -1,0 +1,29 @@
+package com.ml.fulfilmentservice.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class CustomerDTO {
+
+    private Integer id;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String phoneNumber;
+
+    private String email;
+
+    private Date dob;
+
+    private String address;
+}

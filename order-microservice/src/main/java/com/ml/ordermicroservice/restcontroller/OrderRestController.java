@@ -27,8 +27,6 @@ public class OrderRestController {
 
 
     private final OrderService orderService;
-    private final ProductService productService;
-    private final PackageService packageService;
     private final ObjectMapper objectMapper;
 
 
@@ -40,6 +38,7 @@ public class OrderRestController {
             log.info("ORDER IS VALID");
             OrderDTO responseOrder = orderService.acceptOrder(orderDTO);
             return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),HttpStatus.OK.toString(), responseOrder, httpServletRequest.getSession().getId()));
+//            return ResponseEntity.ok(responseOrder);
         }
         log.info("ORDER IS NOT VALID");
         List<ErrorResponse> errorResponses = orderValidator.errors();
@@ -48,6 +47,7 @@ public class OrderRestController {
     }
 
     @GetMapping("/search-order")
+    @ResponseBody
     public ResponseEntity<OrderDTO> searchOrderByOrderNumber(@RequestParam(name = "orderNumber", defaultValue = "") String orderNumber) throws JsonProcessingException {
         OrderDTO responseOrder = orderService.searchAnOrder(orderNumber);
         return ResponseEntity.ok(responseOrder);

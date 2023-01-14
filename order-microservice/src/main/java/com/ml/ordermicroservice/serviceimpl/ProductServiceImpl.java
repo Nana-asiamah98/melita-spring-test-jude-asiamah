@@ -38,10 +38,6 @@ public class ProductServiceImpl implements ProductService {
         return  savedProduct;
     }
 
-    @Override
-    public Product fetch(UUID productId) {
-        return productsRepository.findById(productId).orElseGet(Product::new);
-    }
 
     @Override
     public List<Product> fetchAll() {
@@ -49,7 +45,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(UUID productId, ProductDTO product) {
+    public Product updateProduct(Integer productId, ProductDTO product) {
         Optional<Product> isProduct = productsRepository.findById(productId);
         if (isProduct.isPresent()) {
             Product __mainProduct = isProduct.get();
@@ -62,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Boolean deleteProduct(UUID productId) {
+    public Boolean deleteProduct(Integer productId) {
         boolean isExist = productsRepository.existsById(productId);
         if (isExist) {
             productsRepository.deleteById(productId);
@@ -81,6 +77,17 @@ public class ProductServiceImpl implements ProductService {
             packages.setRate(w.getRate());
             return packages;
         }).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public Optional<Product> findById(Integer id) {
+        return productsRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Product> findByStringValue(String stringValue) {
+        return productsRepository.findByProductName(stringValue);
     }
 }
 

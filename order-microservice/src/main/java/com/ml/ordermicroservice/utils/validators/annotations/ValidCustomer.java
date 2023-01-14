@@ -1,4 +1,4 @@
-package com.ml.ordermicroservice.validators.annotations;
+package com.ml.ordermicroservice.utils.validators.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -12,4 +12,5 @@ public interface AppConstants {
     /* PRODUCT STATUS*/
     static final String PRODUCT_CREATED = "Created";
     static final String PRODUCT_CANCELLED = "Cancelled";
+    static final String RESPONSE_MESSAGE_RETRIEVED =  "Data Retrieved Successfully";
 }

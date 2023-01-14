@@ -15,8 +15,12 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
+    @Column(name = "product_name")
+    private String productName;
+
     @Column(name = "package_name")
     private String packageName;
+
 
     @Column(name = "order_number")
     private String orderNumber;

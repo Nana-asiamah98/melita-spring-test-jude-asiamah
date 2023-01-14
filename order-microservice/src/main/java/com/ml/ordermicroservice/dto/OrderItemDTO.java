@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderItemDTO {
+    private String productName;
     private String packageName;
     private String orderNumber;
     private Double amount;

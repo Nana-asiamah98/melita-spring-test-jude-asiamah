@@ -24,7 +24,5 @@ public class CustomerDTO {
 
     private String email;
 
-    private Date dob;
-
     private String address;
 }

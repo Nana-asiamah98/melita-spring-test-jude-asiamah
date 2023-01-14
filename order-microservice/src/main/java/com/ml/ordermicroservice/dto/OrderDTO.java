@@ -14,6 +14,7 @@ public class OrderDTO {
     private List<OrderItemDTO> orderItem;
     private String orderNumber;
     private Double totalAmount;
-    private String orderState;
+    private String orderStatus;
+    private String notes;
 
 }

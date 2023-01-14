@@ -8,14 +8,14 @@ import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Entity(name = "tbl_product_variant")
+@Entity(name = "tbl_products_package")
 @Data
 public class Packages {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "variant_name")
+    @Column(name = "package_name")
     private String packageName;
 
     @Column(name = "product_id")

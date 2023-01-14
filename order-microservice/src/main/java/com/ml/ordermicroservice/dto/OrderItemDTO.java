@@ -12,8 +12,5 @@ import lombok.NoArgsConstructor;
 public class OrderItemDTO {
     private String packageName;
     private String orderNumber;
-    private String productName;
-    private String productVariantName;
     private Double amount;
-
 }

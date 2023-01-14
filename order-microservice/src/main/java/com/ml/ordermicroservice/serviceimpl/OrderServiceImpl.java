@@ -2,8 +2,11 @@ package com.ml.ordermicroservice.serviceimpl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ml.ordermicroservice.dto.CustomerDTO;
 import com.ml.ordermicroservice.dto.OrderDTO;
+import com.ml.ordermicroservice.dto.OrderItemDTO;
 import com.ml.ordermicroservice.events.OrderEvent;
+import com.ml.ordermicroservice.exceptions.OrderNotExistsException;
 import com.ml.ordermicroservice.model.Customer;
 import com.ml.ordermicroservice.model.InstallationAddress;
 import com.ml.ordermicroservice.model.Order;
@@ -21,7 +24,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -65,12 +67,37 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO updateOrder(String orderNumber, OrderDTO orderDTO) {
-        return null;
+        Optional<Order> isOrder = Optional.ofNullable(orderRepository.findByOrderNumber(orderNumber).orElseThrow(OrderNotExistsException::new));
+        if (isOrder.isPresent()){
+            log.info("[ORDER {} EXIST]", orderNumber);
+            Order __mainOrder = isOrder.get();
+
+
+
+        }
+
+        return new OrderDTO();
     }
 
     @Override
-    public OrderDTO searchAnOrder(OrderDTO orderDTO) {
-        return null;
+    public OrderDTO searchAnOrder(String orderNumber) throws JsonProcessingException {
+        Optional<Order> isOrder = Optional.ofNullable(orderRepository.findByOrderNumber(orderNumber).orElseThrow(OrderNotExistsException::new));
+        if(isOrder.isPresent()){
+            log.info("[ORDER {} EXIST]", orderNumber);
+            Order __mainOrder = isOrder.get();
+            OrderDTO mappedOrder =  modelMapper.map(__mainOrder,OrderDTO.class);
+
+            CustomerDTO mappedCustomer = modelMapper.map(__mainOrder.getCustomerDetails(),CustomerDTO.class);
+
+            List<OrderItemDTO> mappedOrderDTO = __mainOrder.getOrderItems().stream().map( w -> {
+                return modelMapper.map(w, OrderItemDTO.class);
+            }).collect(Collectors.toList());
+
+            mappedOrder.setCustomer(mappedCustomer);
+            mappedOrder.setOrderItem(mappedOrderDTO);
+            return mappedOrder;
+        }
+        return new OrderDTO();
     }
 
 
@@ -109,6 +136,19 @@ public class OrderServiceImpl implements OrderService {
         //Save Order
         Order savedOrder = orderRepository.save(mappedOrder);
         OrderDTO responseOrderDTO =  modelMapper.map(savedOrder,OrderDTO.class);
+
+        // Map to OrderItemDTO
+        List<OrderItemDTO> responseOrderItemDTO = savedOrder.getOrderItems().stream().map( w -> {
+             OrderItemDTO  __orderItemDTO =  modelMapper.map(w, OrderItemDTO.class);
+             __orderItemDTO.setOrderNumber(orderNumber);
+             return __orderItemDTO;
+        }).collect(Collectors.toList());
+        responseOrderDTO.setOrderItem(responseOrderItemDTO);
+
+
+        // Map to CustomerDTO
+        CustomerDTO __customerDTO = modelMapper.map(savedCustomer,CustomerDTO.class);
+        responseOrderDTO.setCustomer(__customerDTO);
 
 
         //Publish To Kafka

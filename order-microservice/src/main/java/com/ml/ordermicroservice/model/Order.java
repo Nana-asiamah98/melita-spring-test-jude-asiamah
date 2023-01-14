@@ -53,6 +53,6 @@ public class Order implements Serializable {
     private ZonedDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "update_at")
+    @Column(name = "updated_at")
     private ZonedDateTime updatedAt;
 }

@@ -21,12 +21,6 @@ public class OrderItem {
     @Column(name = "order_number")
     private String orderNumber;
 
-    @Column(name = "product_name")
-    private String productName;
-
-    @Column(name = "product_variant_name")
-    private String productVariantName;
-
     @Column(name = "amount")
     private Double amount;
 }

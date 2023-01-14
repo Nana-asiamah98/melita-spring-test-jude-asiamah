@@ -16,10 +16,10 @@ CREATE TABLE IF NOT EXISTS tbl_products
     created_at   TIMESTAMPTZ,
     updated_at   timestamptz
 );
-CREATE TABLE IF NOT EXISTS tbl_product_variant
+CREATE TABLE IF NOT EXISTS tbl_products_package
 (
     id           SERIAL PRIMARY KEY,
-    variant_name varchar(100) unique ,
+    package_name varchar(100) unique ,
     rate         numeric(10, 2),
     product_id   integer,
     created_at   TIMESTAMPTZ,

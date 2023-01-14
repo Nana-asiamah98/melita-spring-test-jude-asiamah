@@ -48,6 +48,12 @@ public class Order implements Serializable {
     @Column(name = "order_status")
     private String orderStatus;
 
+    @Column(name = "username")
+    private String userName;
+
+    @Column(name = "comment")
+    private String comment;
+
     @CreationTimestamp
     @Column(name = "created_at")
     private ZonedDateTime createdAt;

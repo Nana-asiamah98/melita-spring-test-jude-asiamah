@@ -30,6 +30,9 @@ public class OrderRestController {
     private final ObjectMapper objectMapper;
 
 
+    @GetMapping(params = {"page","size"})
+    public ResponseEntity<?> fetchPaginatedOrders()
+
     @PostMapping("/accept-order")
     public ResponseEntity<?> acceptAnOrder(@RequestBody OrderDTO orderDTO, HttpServletRequest httpServletRequest) throws JsonProcessingException {
         OrderValidator orderValidator = new OrderValidator(httpServletRequest.getSession().getId());
@@ -48,9 +51,10 @@ public class OrderRestController {
 
     @GetMapping("/search-order")
     @ResponseBody
-    public ResponseEntity<OrderDTO> searchOrderByOrderNumber(@RequestParam(name = "orderNumber", defaultValue = "") String orderNumber) throws JsonProcessingException {
+    public ResponseEntity<?> searchOrderByOrderNumber(@RequestParam(name = "orderNumber", defaultValue = "") String orderNumber,HttpServletRequest httpServletRequest) throws JsonProcessingException {
         OrderDTO responseOrder = orderService.searchAnOrder(orderNumber);
-        return ResponseEntity.ok(responseOrder);
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),HttpStatus.OK.toString(), responseOrder, httpServletRequest.getSession().getId()));
+
     }
 
     @PutMapping("/update-order-status")

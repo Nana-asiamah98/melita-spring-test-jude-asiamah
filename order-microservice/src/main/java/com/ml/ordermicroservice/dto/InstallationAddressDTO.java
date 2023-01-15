@@ -15,6 +15,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InstallationAddressDTO {
+    private UUID id;
     private String streetName;
     private String town;
     private String region;

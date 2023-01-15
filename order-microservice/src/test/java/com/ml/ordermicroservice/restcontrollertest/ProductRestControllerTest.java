@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ProductRestController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 public class ProductRestControllerTest {
 
@@ -61,8 +63,8 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should SEARCH A PRODUCT With A Product Name When Making A GET Request To Endpoint - /api/v1/product?productName=")
-    public void shouldFetchProductUsingTheProductName() throws Exception {
+    @DisplayName("Should SEARCH A PRODUCT With A Product Name AND Return OK  When Making A GET Request To Endpoint - /api/v1/product?productName=")
+    public void fetchProductUsingTheProductName_andReturnOK() throws Exception {
         Product mockResponseData = sampleProductData();
         String phoneNumber = "Product1";
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
@@ -78,8 +80,8 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FETCH Paginated Order Data Using Request Parameters(size,page,sortDirection,sortBy) Using A GET Method To The Endpoint - /api/v1/order")
-    public void shouldFetchPaginatedOrders() throws Exception{
+    @DisplayName("Should FETCH Paginated Order Data Using Request Parameters(size,page,sortDirection,sortBy) AND Return OK  Using A GET Method To The Endpoint - /api/v1/order")
+    public void fetchPaginatedOrders_andReturnOK() throws Exception{
         PaginatedProductResponse mockResponseData = paginatedProductResponse();
         int page = 0;
         int size = 10;
@@ -116,8 +118,8 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should  UPDATE a Customer when making a PUT Request To Endpoint -  /{id}/edit")
-    public void shouldUpdateAProduct() throws Exception {
+    @DisplayName("Should  UPDATE a Customer AND Return OK  when making a PUT Request To Endpoint -  /{id}/edit")
+    public void updateAProduct_andReturnOK() throws Exception {
         int productId = 1;
         ProductDTO mockUpdateRequestDTO = modelMapper.map(sampleUpdateProductData(),ProductDTO.class);
         mockUpdateRequestDTO.setId(productId);
@@ -137,8 +139,8 @@ public class ProductRestControllerTest {
 
 
     @Test
-    @DisplayName("Should Fail To UPDATE a Customer when making a PUT Request To Endpoint -  /{id}/edit")
-    public void shouldFailToUpdateAProduct() throws Exception {
+    @DisplayName("Should Fail To UPDATE a Customer AND Return BAD REQUEST when making a PUT Request To Endpoint -  /{id}/edit")
+    public void failToUpdateAProduct_andReturnBadRequest() throws Exception {
         int productId = 1;
         ProductDTO mockUpdateRequestDTO = modelMapper.map(sampleWrongProductData(),ProductDTO.class);
         mockUpdateRequestDTO.setId(productId);
@@ -158,8 +160,8 @@ public class ProductRestControllerTest {
 
 
     @Test
-    @DisplayName("Should SAVE Products When Making A POST Request To Endpoint - /api/v1/product/")
-    public void shouldSaveProduct() throws Exception{
+    @DisplayName("Should SAVE Products AND Return OK  When Making A POST Request To Endpoint - /api/v1/product/")
+    public void saveProduct_andReturnOK() throws Exception{
         Product mockResponseData = sampleProductData();
        ProductDTO mockRequestDTO = modelMapper.map(sampleProductData(), ProductDTO.class);
 
@@ -176,8 +178,8 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FAIL When SAVING Products When Making A POST Request To Endpoint - /api/v1/product/")
-    public void shouldFailWhenSavingProducts() throws Exception {
+    @DisplayName("Should FAIL When   SAVING Products AND Return BAD REQUEST When Making A POST Request To Endpoint - /api/v1/product/")
+    public void failWhenSavingProducts_andReturnBadRequest() throws Exception {
         Product mockWrongProduct = sampleWrongProductData();
 
         mockMvc.perform(
@@ -189,8 +191,8 @@ public class ProductRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should DELETE A Product when making a DELETE Request To Endpoint -  /{id}")
-    public void shouldDeleteACustomer() throws Exception {
+    @DisplayName("Should DELETE A Product AND Return OK  when making a DELETE Request To Endpoint -  /{id}")
+    public void deleteACustomer_andReturnNoContent() throws Exception {
         int productId = 1;
 
         Mockito.when(productService.deleteProduct(productId)).thenReturn(true);

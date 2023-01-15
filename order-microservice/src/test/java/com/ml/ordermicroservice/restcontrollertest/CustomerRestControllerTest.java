@@ -15,6 +15,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = CustomerRestController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 public class CustomerRestControllerTest {
 
@@ -56,8 +58,8 @@ public class CustomerRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should SEARCH A CUSTOMER With A Phone Number When Making A GET Request To Endpoint - /api/v1/customer?phoneNumber=")
-    public void shouldFetchCustomerUsingPhoneNumber() throws Exception {
+    @DisplayName("Should SEARCH A CUSTOMER With A Phone Number AND Return OK When Making A GET Request To Endpoint - /api/v1/customer?phoneNumber=")
+    public void fetchCustomerUsingPhoneNumber_andReturnOK() throws Exception {
         Customer mockResponseData = entityResponseData();
         String phoneNumber = "0201111223";
         MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
@@ -73,8 +75,8 @@ public class CustomerRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should CREATE a Customer when making a POST Request To Endpoint -  /api/v1/customer")
-    public void shouldCreateACustomer() throws Exception {
+    @DisplayName("Should CREATE a Customer AND Return OK when making a POST Request To Endpoint -  /api/v1/customer")
+    public void createACustomer_andReturnOK() throws Exception {
         CustomerDTO mockRequestDTO = entityRequestData();
         Customer mockResponseData = entityResponseData();
 
@@ -91,8 +93,8 @@ public class CustomerRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FAIL TO CREATE a Customer when making a POST Request To Endpoint -  /api/v1/customer")
-    public void shouldFailToCreateACustomer() throws Exception {
+    @DisplayName("Should FAIL TO CREATE a Customer AND Return BAD REQUEST when making a POST Request To Endpoint -  /api/v1/customer")
+    public void failToCreateACustomer_andReturnABadRequest() throws Exception {
         CustomerDTO mockWrongRequestDTO = wrongEntityRequestData();
         Customer mockResponseData = entityResponseData();
 
@@ -112,8 +114,8 @@ public class CustomerRestControllerTest {
 
 
     @Test
-    @DisplayName("Should  UPDATE a Customer when making a PUT Request To Endpoint -  /{id}/edit")
-    public void shouldUpdateACustomer() throws Exception {
+    @DisplayName("Should  UPDATE a Customer AND Return OK when making a PUT Request To Endpoint -  /{id}/edit")
+    public void updateACustomer_andReturnOK() throws Exception {
         UUID customersID = UUID.randomUUID();
         CustomerDTO mockRequestDTO = entityRequestData();
         mockRequestDTO.setId(customersID);
@@ -134,8 +136,8 @@ public class CustomerRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FAIL To UPDATE A Customer when making a PUT Request To Endpoint -  /{id}/edit")
-    public void shouldFailToUpdateCustomer() throws Exception {
+    @DisplayName("Should FAIL To UPDATE A Customer AND Return BAD REQUEST  when making a PUT Request To Endpoint -  /{id}/edit")
+    public void failToUpdateCustomer_andReturnABadRequest() throws Exception {
         UUID customersID = UUID.randomUUID();
         CustomerDTO mockRequestDTO = wrongEntityRequestData();
         mockRequestDTO.setId(customersID);
@@ -156,8 +158,8 @@ public class CustomerRestControllerTest {
 
 
     @Test
-    @DisplayName("Should DELETE A Customer when making a DELETE Request To Endpoint -  /{id}")
-    public void shouldDeleteACustomer() throws Exception {
+    @DisplayName("Should DELETE A Customer AND Return NO CONTENT when making a DELETE Request To Endpoint -  /{id}")
+    public void shouldDeleteACustomer_andReturnNoContent() throws Exception {
         UUID customersID = UUID.randomUUID();
 
         Mockito.when(customerService.delete(customersID)).thenReturn(true);
@@ -170,8 +172,8 @@ public class CustomerRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FETCH Paginated Customers Data Using Request Parameters(size,page,sortDirection,sortBy) Using A GET Method To The Endpoint - /api/v1/customer")
-    public void shouldFetchPaginatedOrders() throws Exception{
+    @DisplayName("Should FETCH Paginated Customers Data Using Request Parameters(size,page,sortDirection,sortBy) AND Return OK Using A GET Method To The Endpoint - /api/v1/customer")
+    public void shouldFetchPaginatedOrders_andReturnOK() throws Exception{
         PaginatedCustomerResponse mockResponseData = paginatedCustomerResponse();
         int page = 0;
         int size = 10;

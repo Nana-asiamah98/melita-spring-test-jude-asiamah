@@ -12,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = OrderRestController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @ActiveProfiles("test")
 public class OrderRestControllerTest {
 
@@ -61,8 +63,8 @@ public class OrderRestControllerTest {
 
 
     @Test
-    @DisplayName("Should SEARCH An Order With An Order Number When Making A GET Request To Endpoint - /api/v1/order/search-order?orderNumber=")
-    public void shouldSearchAnOrder() throws Exception {
+    @DisplayName("Should SEARCH An Order With An Order Number AND Return OK  When Making A GET Request To Endpoint - /api/v1/order/search-order?orderNumber=")
+    public void searchAnOrder_andReturnOK() throws Exception {
 
         OrderDTO mockResponseData = orderResponseData();
 
@@ -81,8 +83,8 @@ public class OrderRestControllerTest {
 
 
     @Test
-    @DisplayName("Should ACCEPT Order when making a POST Request To Endpoint -  /api/v1/order/accept-order")
-    public void shouldAcceptOrder() throws Exception {
+    @DisplayName("Should ACCEPT Order AND Return OK  when making a POST Request To Endpoint -  /api/v1/order/accept-order")
+    public void acceptOrder_andReturnOK() throws Exception {
         OrderDTO mockRequestDTO = orderRequestData();
         OrderDTO mockResponseDTO = orderResponseData();
 
@@ -99,8 +101,8 @@ public class OrderRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FAIL Order when making a POST Request To Endpoint -  /api/v1/order/accept-order")
-    public void shouldFAILOrder() throws Exception {
+    @DisplayName("Should FAIL Order AND Return BAD REQUEST when making a POST Request To Endpoint -  /api/v1/order/accept-order")
+    public void fAILOrder_andReturnBadRequest() throws Exception {
         OrderDTO mockRequestDTO = orderRequestWrongData();
         OrderDTO mockResponseDTO = orderResponseData();
 
@@ -118,8 +120,8 @@ public class OrderRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should UPDATE The Status Of An Order Using A Request Body And An orderNumber Request Parameter A PUT Method To The Endpoint - /api/v1/order/update-order?orderNumber=")
-    public void shouldUpdateAnOrder() throws Exception{
+    @DisplayName("Should UPDATE The Status Of An Order AND Return OK When  Using A Request Body And An orderNumber Request Parameter A PUT Method To The Endpoint - /api/v1/order/update-order?orderNumber=")
+    public void updateAnOrder_andReturnOK() throws Exception{
 
         UpdateOrderStatusDTO mockRequestData = updateRequestData();
         UpdateOrderStatusDTO mockResponseData = updateResponseData();
@@ -140,8 +142,8 @@ public class OrderRestControllerTest {
     }
 
     @Test
-    @DisplayName("Should FAIL to UPDATE The Status Of An Order Using A Request Body And An orderNumber Request Parameter A PUT Method To The Endpoint - /api/v1/order/update-order?orderNumber=")
-    public void shouldFailToUpdateAnOrder() throws Exception{
+    @DisplayName("Should FAIL to UPDATE The Status Of An Order AND Return BAD REQUEST Using A Request Body And An orderNumber Request Parameter A PUT Method To The Endpoint - /api/v1/order/update-order?orderNumber=")
+    public void failToUpdateAnOrder_andReturnBadRequest() throws Exception{
 
         UpdateOrderStatusDTO mockRequestData = updateRequestWrongData();
         UpdateOrderStatusDTO mockResponseData = updateResponseData();
@@ -162,8 +164,8 @@ public class OrderRestControllerTest {
                 .andExpect(jsonPath("$.dataList[0].field").value("userName"));    }
 
     @Test
-    @DisplayName("Should FETCH Paginated Order Data Using Request Parameters(size,page,sortDirection,sortBy) Using A GET Method To The Endpoint - /api/v1/order")
-    public void shouldFetchPaginatedOrders() throws Exception{
+    @DisplayName("Should FETCH Paginated Order Data Using Request Parameters(size,page,sortDirection,sortBy) AND Return OK  Using A GET Method To The Endpoint - /api/v1/order")
+    public void fetchPaginatedOrders_andReturnOK() throws Exception{
         PaginatedOrdersResponse mockResponseData = paginatedOrdersResponse();
         int page = 0;
         int size = 10;

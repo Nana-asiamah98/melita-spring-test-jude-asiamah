@@ -2,10 +2,7 @@ package com.ml.ordermicroservice.serviceimpl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ml.ordermicroservice.dto.CustomerDTO;
-import com.ml.ordermicroservice.dto.OrderDTO;
-import com.ml.ordermicroservice.dto.OrderItemDTO;
-import com.ml.ordermicroservice.dto.UpdateOrderStatusDTO;
+import com.ml.ordermicroservice.dto.*;
 import com.ml.ordermicroservice.events.OrderEvent;
 import com.ml.ordermicroservice.exceptions.OrderNotExistsException;
 import com.ml.ordermicroservice.model.Customer;
@@ -23,6 +20,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -44,6 +45,28 @@ public class OrderServiceImpl implements OrderService {
     private final OrderNumberGenerator orderNumberGenerator;
     private final ObjectMapper objectMapper;
 
+
+    /*
+    * Fetching a paginated sets of orders*/
+    @Override
+    public PaginatedOrdersResponse fetchPaginatedOrders(int page, int size, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page,size,sort);
+        Page<Order> ordersPaginated = orderRepository.findAll(pageable);
+
+        List<OrderDTO> orderDTOList = ordersPaginated.getContent().stream().map(this::mapEntityToDTO).collect(Collectors.toList());
+
+        return PaginatedOrdersResponse
+                .builder()
+                .content(orderDTOList)
+                .pageNo(ordersPaginated.getNumber())
+                .pageSize(ordersPaginated.getSize())
+                .totalElements(ordersPaginated.getTotalElements())
+                .totalPages(ordersPaginated.getTotalPages())
+                .pageSize(ordersPaginated.getSize())
+                .last(ordersPaginated.isLast())
+                .build();
+    }
 
     /*
      * Create An Order

@@ -14,7 +14,7 @@ spring:
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: orderTopicId
+      group-id: careTopicId
 
     template:
       default-topic: orderTopic

@@ -1,4 +1,4 @@
-package com.ml.apigateway.config;
+package com.ml.ordermicroservice.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ public class SpringFoxConfig {
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.stlghana.tms_backend.restcontroller"))
+                .apis(RequestHandlerSelectors.basePackage("com.ml.ordermicroservice.restcontroller"))
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Arrays.asList(securityScheme()))
@@ -42,7 +42,7 @@ public class SpringFoxConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
-                "Travelling Management System[TMS]",
+                "Order Micro-Service",
                 "The goal of this application is to generate travelling applications for users to apply for travelling or leave permit." +
                         "To continue, this application has the role and permission for users to perform peculiar actions on an application",
                 "v1",

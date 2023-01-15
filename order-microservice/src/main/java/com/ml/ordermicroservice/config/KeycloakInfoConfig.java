@@ -1,4 +1,4 @@
-package com.ml.apigateway.config;
+package com.ml.ordermicroservice.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

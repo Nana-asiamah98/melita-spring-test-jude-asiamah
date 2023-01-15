@@ -36,6 +36,9 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: https://lemur-0.cloud-iam.com/auth/realms/order-api-stack
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 
 eureka:
@@ -48,3 +51,18 @@ server:
   servlet:
     context-path: /order
 
+keycloak:
+  server: "https://lemur-0.cloud-iam.com"
+  client-id: "order-service"
+  client-secret: "bL2c9sExIRhvSkKfas7YGs6voXNvIqWN"
+  realm: "order-api-stack"
+
+springdoc:
+  version: '@springdoc.version@'
+  swagger-ui:
+    oauth:
+      clientId: "order-service"
+      clientSecret: "bL2c9sExIRhvSkKfas7YGs6voXNvIqWN"
+  oAuthFlow:
+    authorizationUrl: ${OAUTH2_SERVER:${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/auth
+    tokenUrl: ${OAUTH2_SERVER:${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/token

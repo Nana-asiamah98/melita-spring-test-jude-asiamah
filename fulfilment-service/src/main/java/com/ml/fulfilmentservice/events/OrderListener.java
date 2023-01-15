@@ -28,7 +28,6 @@ public class OrderListener {
                 log.info("[ORDER  STATUS {}]", orderDTO.getOrderStatus().toUpperCase());
                 break;
             default:
-                log.info("[ORDER FAILED TO RECEIVED]");
                 break;
         }
     }

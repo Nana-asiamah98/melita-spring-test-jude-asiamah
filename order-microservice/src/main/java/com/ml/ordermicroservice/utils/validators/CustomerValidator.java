@@ -24,12 +24,21 @@ public class CustomerValidator extends BaseValidator {
         log.info("[ " + requestId + " ]" + "validating create order request payload");
 
 
+
         /*
          *  ---------------------------
          *  START : VALIDATING CUSTOMER OBJECT
          * ---------------------------
          *
          * */
+
+        /*
+         * General OrderDTO Object
+         * */
+        if (!ValidationUtils.isObjectPresent(request)) {
+            errors.put("body", "Request body cannot be empty");
+            log.info("[ " + requestId + " ]" + "validation failed : request body is empty");
+        }
 
 
         /*

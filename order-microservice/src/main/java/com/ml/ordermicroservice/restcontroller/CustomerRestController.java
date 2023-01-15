@@ -47,7 +47,7 @@ public class CustomerRestController {
         if(isCustomer.isPresent()){
             return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(), HttpStatus.OK.toString(), isCustomer.get(), httpServletRequest.getSession().getId()));
         }
-        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString(), "Customer wih phone number " + phoneNumber + " does not exist.", httpServletRequest.getSession().getId()));
+        return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString(), "Customer with phone number " + phoneNumber + " does not exist.", httpServletRequest.getSession().getId()));
 
     }
 
@@ -87,7 +87,6 @@ public class CustomerRestController {
         log.info("CUSTOMER REQUEST BODY IS NOT VALID");
         List<ErrorResponse> errorResponses = customerValidator.errors();
         return ResponseEntity.badRequest().body(new ResponseDTO<>(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.toString(), errorResponses, Long.valueOf(errorResponses.size()), httpServletRequest.getSession().getId()));
-
     }
 
     @DeleteMapping("/{id}")

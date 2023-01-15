@@ -1,4 +1,4 @@
-# spring-parent-temp-project
+# Order Taking API Service
 
 ### Resources
 - Eureka Server : http://localhost:9761/eureka/web

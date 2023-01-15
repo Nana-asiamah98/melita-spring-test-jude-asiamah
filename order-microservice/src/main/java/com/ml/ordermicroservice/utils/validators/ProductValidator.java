@@ -43,8 +43,8 @@ public class ProductValidator extends BaseValidator {
         *  Validate Product Name is present
          * */
         if (!ValidationUtils.isStringPresent(request.getProductName())) {
-            errors.put("customer.firstName", "Customer first name cannot be empty");
-            log.info("[ " + requestId + " ]" + "validation failed : customer first name is empty");
+            errors.put("product.name", "Product name cannot be empty");
+            log.info("[ " + requestId + " ]" + "validation failed : product name is empty");
         }
 
         // Create an AtomicInteger for index
@@ -114,8 +114,8 @@ public class ProductValidator extends BaseValidator {
          *  Validate Product Name is present
          * */
         if (!ValidationUtils.isStringPresent(request.getProductName())) {
-            errors.put("customer.firstName", "Customer first name cannot be empty");
-            log.info("[ " + requestId + " ]" + "validation failed : customer first name is empty");
+            errors.put("product.name", "Product name cannot be empty");
+            log.info("[ " + requestId + " ]" + "validation failed : product name is empty");
         }
 
         // Create an AtomicInteger for index

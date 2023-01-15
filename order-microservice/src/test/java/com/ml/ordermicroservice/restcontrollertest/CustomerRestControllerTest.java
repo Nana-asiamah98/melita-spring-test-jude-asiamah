@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ml.ordermicroservice.dto.CustomerDTO;
 import com.ml.ordermicroservice.dto.OrderDTO;
 import com.ml.ordermicroservice.dto.PaginatedCustomerResponse;
+import com.ml.ordermicroservice.dto.PaginatedProductResponse;
 import com.ml.ordermicroservice.model.Customer;
 import com.ml.ordermicroservice.repository.OrderRepository;
 import com.ml.ordermicroservice.restcontroller.CustomerRestController;
@@ -166,6 +167,31 @@ public class CustomerRestControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent())
                 .andDo(print());
+    }
+
+    @Test
+    @DisplayName("Should FETCH Paginated Customers Data Using Request Parameters(size,page,sortDirection,sortBy) Using A GET Method To The Endpoint - /api/v1/customer")
+    public void shouldFetchPaginatedOrders() throws Exception{
+        PaginatedCustomerResponse mockResponseData = paginatedCustomerResponse();
+        int page = 0;
+        int size = 10;
+        String sortBy = "id";
+        String sortDir = "ASC";
+        MultiValueMap<String, String> paramsMap = new LinkedMultiValueMap<>();
+        paramsMap.add("page", "0");
+        paramsMap.add("size", "10");
+        paramsMap.add("sortBy", "id");
+        paramsMap.add("sortDir", "ASC");
+
+        Mockito.when(customerService.fetchPaginatedCustomer(page,size,sortBy,sortDir)).thenReturn(mockResponseData);
+
+        mockMvc.perform(get("/api/v1/customer").params(paramsMap))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.data.content.size()").value(mockResponseData.getContent().size()));
+
     }
 
 

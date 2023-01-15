@@ -51,7 +51,6 @@ public class OrderRestController {
             log.info("ORDER IS VALID");
             OrderDTO responseOrder = orderService.acceptOrder(orderDTO);
             return ResponseEntity.ok(new ResponseDTO<>(HttpStatus.OK.value(),HttpStatus.OK.toString(), responseOrder, httpServletRequest.getSession().getId()));
-//            return ResponseEntity.ok(responseOrder);
         }
         log.info("ORDER IS NOT VALID");
         List<ErrorResponse> errorResponses = orderValidator.errors();

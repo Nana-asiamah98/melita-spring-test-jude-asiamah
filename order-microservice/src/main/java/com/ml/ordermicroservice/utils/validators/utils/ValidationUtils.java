@@ -11,6 +11,10 @@ import java.util.regex.Pattern;
 
 public final class ValidationUtils {
     final static String EMAIL_PATTERN = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+    final static  String PHONE_PATTERN =
+            "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$";
 
     private ValidationUtils() {
     }
@@ -59,6 +63,12 @@ public final class ValidationUtils {
 
     public static boolean isValidEmail(String string){
         Pattern pattern = Pattern.compile(EMAIL_PATTERN, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(string);
+        return matcher.find();
+    }
+
+    public static boolean isPhoneNumber(String string){
+        Pattern pattern = Pattern.compile(PHONE_PATTERN);
         Matcher matcher = pattern.matcher(string);
         return matcher.find();
     }

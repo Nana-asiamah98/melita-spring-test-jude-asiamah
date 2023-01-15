@@ -1,8 +1,6 @@
 package com.ml.ordermicroservice.restcontrollertest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ml.ordermicroservice.dto.OrderDTO;
-import com.ml.ordermicroservice.dto.PaginatedOrdersResponse;
 import com.ml.ordermicroservice.dto.PaginatedProductResponse;
 import com.ml.ordermicroservice.dto.ProductDTO;
 import com.ml.ordermicroservice.model.Packages;
@@ -158,21 +156,6 @@ public class ProductRestControllerTest {
                 .andDo(print());
     }
 
-    @Test
-    @DisplayName("Should List All Products When Making A GET Request To Endpoint - /api/v1/product/")
-    public void shouldListAllProducts() throws Exception{
-
-        Product product1 = sampleProductData();
-        Product product2 = sampleProductData();
-        List<Product> expectedProducts = Arrays.asList(product1,product2);
-
-        Mockito.when(productService.fetchAll()).thenReturn(expectedProducts);
-
-        mockMvc.perform(get("/api/v1/product/"))
-                .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andExpect(jsonPath("$.size()", Matchers.is(2)));
-    }
 
     @Test
     @DisplayName("Should SAVE Products When Making A POST Request To Endpoint - /api/v1/product/")

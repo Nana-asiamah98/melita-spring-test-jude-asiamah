@@ -8,4 +8,13 @@ server:
 
 spring:
   application:
-    name: care-microservice
+    name: fulfilment-service
+  kafka:
+    bootstrap-servers: "localhost:9092"
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: orderTopicId
+
+    template:
+      default-topic: orderTopic
